@@ -30,7 +30,7 @@ struct LandingView: View {
                 
                 
                 
-                List(toDos) { toDo in
+                List($toDos) { $toDo in
                     
                     ItemView(currentItem: toDo)
                         //delet to do item
@@ -38,6 +38,11 @@ struct LandingView: View {
                             Button("Delete", role: .destructive, action:{
                                 delete(toDo)
                             })
+                        }
+                    
+                        //marking as done actions
+                        .onTapGesture {
+                            toDo.done.toggle()
                         }
                 }
                 .searchable(text: $searchText)
