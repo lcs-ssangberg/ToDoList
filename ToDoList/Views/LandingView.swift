@@ -20,6 +20,9 @@ struct LandingView: View {
     //list of to do items
     @State var toDos: [ToDoItem] = exampleItem
     
+    //access the model context (data modifications ect)
+    @Environment(\.modelContext) var modelContext
+    
     //MARK: Computed properties
     
     var body: some View {
@@ -90,8 +93,8 @@ struct LandingView: View {
     }
 }
 
-#Preview {
-    LandingView()
-}
-
+//#Preview {
+//    LandingView()
+//}
+//
 
