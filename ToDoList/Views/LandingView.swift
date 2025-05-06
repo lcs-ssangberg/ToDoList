@@ -30,10 +30,15 @@ struct LandingView: View {
                 
                 
                 
-                List(toDos) { todo in
+                List(toDos) { toDo in
                     
-                    ItemView(currentItem: todo)
-                    
+                    ItemView(currentItem: toDo)
+                        //delet to do item
+                        .swipeActions {
+                            Button("Delete", role: .destructive, action:{
+                                delete(toDo)
+                            })
+                        }
                 }
                 .searchable(text: $searchText)
                 
@@ -47,7 +52,7 @@ struct LandingView: View {
                         
                         
                     }
-                    .font(.captionç)
+                    .font(.caption)
                     .disabled(newItemDescription.isEmpty == true)
                 }
                 .padding(20)
@@ -71,6 +76,15 @@ struct LandingView: View {
         
         //append to add item to list
         toDos.append(toDo)
+    }
+    
+    func delete(_ toDo: ToDoItem) {
+        
+        //remove items from array
+        toDos.removeAll { currentItem in
+            currentItem.id == toDo.id
+            
+        }
     }
 }
 
