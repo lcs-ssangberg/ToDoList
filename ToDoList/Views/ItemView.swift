@@ -10,7 +10,7 @@ import SwiftUI
 struct ItemView: View {
     
 
-    let currentItem: ToDoItem
+    @Binding var currentItem: ToDoItem
     
     
     var body: some View {
@@ -18,14 +18,18 @@ struct ItemView: View {
             Text(currentItem.title)
         }, icon: {
             Image(systemName: currentItem.done == true ? "checkmark.circle" : "circle")
+                //marking as done actions
+                .onTapGesture {
+                    currentItem.done.toggle()
+                }
         })
     }
 }
 
 #Preview {
     List {
-        ItemView(currentItem: firstItem)
-        ItemView(currentItem: secondItem)
-        ItemView(currentItem: thirdItem)
+        ItemView(currentItem: Binding.constant(firstItem))
+        ItemView(currentItem: Binding.constant(secondItem))
+        ItemView(currentItem: Binding.constant(thirdItem))
     }
 }

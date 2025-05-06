@@ -32,7 +32,7 @@ struct LandingView: View {
                 
                 List($toDos) { $toDo in
                     
-                    ItemView(currentItem: toDo)
+                    ItemView(currentItem: $toDo)
                         //delet to do item
                         .swipeActions {
                             Button("Delete", role: .destructive, action:{
@@ -40,10 +40,7 @@ struct LandingView: View {
                             })
                         }
                     
-                        //marking as done actions
-                        .onTapGesture {
-                            toDo.done.toggle()
-                        }
+                        
                 }
                 .searchable(text: $searchText)
                 
