@@ -26,11 +26,11 @@ struct LandingView: View {
             VStack {
                 List {
                     
-                    ItemView(title: "Study for Chem", done: false)
+                    ItemView(currentItem: firstItem)
                     
-                    ItemView(title: "Stucy for physics", done: true)
+                    ItemView(currentItem: secondItem)
                     
-                    ItemView(title: "study for math", done: false)
+                    ItemView(currentItem: thirdItem)
                     
                 }
                 .searchable(text: $searchText)
