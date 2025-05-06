@@ -17,6 +17,9 @@ struct LandingView: View {
     //add new to do item
     @State var newItemDescription = ""
     
+    //list of to do items
+    @State var toDos: [ToDoItem] = exampleItem
+    
     //MARK: Computed properties
     
     var body: some View {
@@ -24,13 +27,12 @@ struct LandingView: View {
         NavigationView {
             
             VStack {
-                List {
+                
+                
+                
+                List(toDos) { todo in
                     
-                    ItemView(currentItem: firstItem)
-                    
-                    ItemView(currentItem: secondItem)
-                    
-                    ItemView(currentItem: thirdItem)
+                    ItemView(currentItem: todo)
                     
                 }
                 .searchable(text: $searchText)
@@ -40,11 +42,13 @@ struct LandingView: View {
                     
                     Button("Add") {
                         //add new item
+                        createToDo(withTitle: newItemDescription)
                         
                         
                         
                     }
-                    .font(.caption)
+                    .font(.captionç)
+                    .disabled(newItemDescription.isEmpty == true)
                 }
                 .padding(20)
                 
@@ -56,6 +60,17 @@ struct LandingView: View {
         }
         
         
+    }
+    
+    //MARK: functions
+    func createToDo(withTitle title: String) {
+        
+        //make instance
+        let toDo = ToDoItem(title: title, done: false)
+        
+        
+        //append to add item to list
+        toDos.append(toDo)
     }
 }
 
