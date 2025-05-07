@@ -5,6 +5,7 @@
 //  Created by Sebastian on 2025-05-05.
 //
 
+import SwiftData
 import SwiftUI
 
 struct LandingView: View {
@@ -18,7 +19,7 @@ struct LandingView: View {
     @State var newItemDescription = ""
     
     //list of to do items
-    @State var toDos: [ToDoItem] = exampleItem
+    @Query var toDos: [ToDoItem]
     
     //access the model context (data modifications ect)
     @Environment(\.modelContext) var modelContext
@@ -33,17 +34,13 @@ struct LandingView: View {
                 
                 
                 
-                List($toDos) { $toDo in
-                    
-                    ItemView(currentItem: $toDo)
-                        //delet to do item
-                        .swipeActions {
-                            Button("Delete", role: .destructive, action:{
-                                delete(toDo)
-                            })
-                        }
-                    
+                List {
+                    ForEach(toDos) { toDo in
                         
+                        ItemView(currentItem: toDo)
+                 
+                    }
+                    .onDelete(perform: removeRows)
                 }
                 .searchable(text: $searchText)
                 
@@ -79,16 +76,19 @@ struct LandingView: View {
         let toDo = ToDoItem(title: title, done: false)
         
         
-        //append to add item to list
-        toDos.append(toDo)
+        //use model context to add new item
+        modelContext.insert(toDo)
     }
     
-    func delete(_ toDo: ToDoItem) {
+    func removeRows(at offsets: IndexSet) {
         
-        //remove items from array
-        toDos.removeAll { currentItem in
-            currentItem.id == toDo.id
-            
+        // Accept the offset within the list
+        // (the position of the item being deleted)
+        //
+        // Then ask the model context to delete this
+        // for us, from the 'todos' array
+        for offset in offsets {
+            modelContext.delete(toDos[offset])
         }
     }
 }
